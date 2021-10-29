@@ -197,5 +197,73 @@ String initialStrings[] = {"name1", "name2"};
 		assertTrue(numbers.removeAll(numbers));
 		assertArrayEquals(new Integer[0], getArrayFromList(numbers));
 	}
-
+	@Test
+	void removePatternTest() {
+		// Integer test
+		Integer expectedNum[] = {10, 40};
+		Integer toBeRemovedNum = 20;
+		Integer removedNum = numbers.remove(toBeRemovedNum);
+		assertArrayEquals(expectedNum, getArrayFromList(numbers));
+		assertEquals(removedNum, toBeRemovedNum);
+		toBeRemovedNum = 100;
+		assertNull(numbers.remove(toBeRemovedNum));
+		// String test
+		String expectedStr[] = {"name1"};
+		String toBeRemovedStr = "name2";
+		String removedStr = strings.remove(toBeRemovedStr);
+		assertArrayEquals(expectedStr, getArrayFromList(strings));
+		toBeRemovedStr = "XXX";
+		assertNull(strings.remove(toBeRemovedStr));
+	}
+	@Test
+	void sortNaturalOrderTest() {
+		// Integer test
+		numbers.add(8);
+		numbers.add(3);
+		Integer expectedN[] = {3, 8, 10, 20, 40};
+		numbers.sort();
+		assertArrayEquals(expectedN, getArrayFromList(numbers));
+		// String test
+		strings.add(0, "name3");
+		strings.add(2, "name4");
+		String expectedS[] = {"name1", "name2", "name3", "name4"};
+		strings.sort();
+		assertArrayEquals(expectedS, getArrayFromList(strings));
+	}
+	@Test
+	void sortComparatorTest() {
+		// Integer test
+		numbers.add(8);
+		numbers.add(3);
+		Integer expectedN[] = {40, 20, 10, 8, 3};
+		numbers.sort(new ComparatorNumInverse());
+		assertArrayEquals(expectedN, getArrayFromList(numbers));
+		// String test
+		strings.add(0, "name3");
+		strings.add(2, "name4");
+		String expectedS[] = {"name4", "name3", "name2", "name1"};
+		strings.sort(new ComparatorStrInverse());
+		assertArrayEquals(expectedS, getArrayFromList(strings));
+	}
+	@Test
+	void retainTest() {
+		// Integer test
+		numbers.add(8);
+		numbers.add(10);
+		List<Integer> retainNumList = new ArrayList<>();
+		retainNumList.add(10);
+		retainNumList.add(20);
+		Integer expectedNum[] = {10, 20, 10};
+		numbers.retainAll(retainNumList);
+		assertArrayEquals(expectedNum, getArrayFromList(numbers));
+		// String test
+		strings.add("name4");
+		strings.add("name3");
+		List<String> retainStrList = new ArrayList<>();
+		retainStrList.add("name3");
+		retainStrList.add("name2");
+		strings.retainAll(retainStrList);
+		String expectedStr[] = {"name2", "name3"};
+		assertArrayEquals(expectedStr, getArrayFromList(strings));
+	}
 }
